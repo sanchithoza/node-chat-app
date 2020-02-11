@@ -12,6 +12,16 @@ var io = socketIO(server);
 var port = process.env.PORT || 3000;
 io.on('connection',(socket)=>{
   console.log('new user connected');
+  socket.emit('newMessage',{
+    from:'sanchit',
+    text:'test chat emit from server',
+    createdAt:new Date()
+  });
+
+  socket.on('createMessage',(message)=>{
+    console.log('new message from client',message);
+  });
+
   socket.on('disconnect',()=>{
     console.log('user was disconnected');
   });
@@ -19,7 +29,7 @@ io.on('connection',(socket)=>{
 app.use(express.static('publicPath'));
 
 app.get('/',(req,res)=>{
-    res.sendFile( `${publicPath}/index.html`);
+  res.sendFile( `${publicPath}/index.html`);
 });
 server.listen(port,()=>{
   console.log(`server up on port ${port}`);
