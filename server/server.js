@@ -12,14 +12,19 @@ var io = socketIO(server);
 var port = process.env.PORT || 3000;
 io.on('connection',(socket)=>{
   console.log('new user connected');
-  socket.emit('newMessage',{
-    from:'sanchit',
-    text:'test chat emit from server',
-    createdAt:new Date()
-  });
+  //socket.emit('newMessage',{
+  //  from:'sanchit',
+  //  text:'test chat emit from server',
+  //  createdAt:new Date()
+  //});
 
   socket.on('createMessage',(message)=>{
     console.log('new message from client',message);
+    io.emit('newMessage',{
+      from:message.form,
+      text:message.text,
+      createdAt: new Date().getTime()
+    });
   });
 
   socket.on('disconnect',()=>{
