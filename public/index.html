@@ -21,8 +21,15 @@
       //});
     });
     socket.on('newMessage',function(message){
-      console.log('new Message from server',message);
+      console.log('new Message from user',message);
     });
+  //  socket.on('newUserGreeting',function(message){
+    //  console.log('new Message from server',message);
+    //});
+    //socket.on('newUserAlert',function(message){
+    //  console.log('new Message from server',message);
+    //});
+
 
     socket.on('disconnect',function(){
       console.log('disconnectd from server');

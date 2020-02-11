@@ -17,7 +17,16 @@ io.on('connection',(socket)=>{
   //  text:'test chat emit from server',
   //  createdAt:new Date()
   //});
-
+  socket.emit('newMessage',{
+    from:'Admin',
+    text:'Welcome to Chat App',
+    createdAt: new Date().getTime()
+  });
+  socket.broadcast.emit('newMessage',{
+    from:'admin',
+    text:'new user added to chat app',
+    createdAt: new Date().getTime()
+  });
   socket.on('createMessage',(message)=>{
     console.log('new message from client',message);
     io.emit('newMessage',{
@@ -25,6 +34,11 @@ io.on('connection',(socket)=>{
       text:message.text,
       createdAt: new Date().getTime()
     });
+    //socket.broadcast.emit('newMessage',{
+      //from:message.from,
+      //text:message.text,
+      //createdAt: new Date().getTime()
+    //});
   });
 
   socket.on('disconnect',()=>{
