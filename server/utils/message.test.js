@@ -10,7 +10,7 @@ describe('function generate message',()=>{
 
     expect(message.from).toBe('sanchit');
     expect(message.text).toBe('testing string');
-    expect(message.createdAt).toBeA('number');
+    expect(typeof(message.createdAt)).toBe('number');
   });
 });
 describe('function generate location messsage',()=>{
@@ -21,7 +21,7 @@ describe('function generate location messsage',()=>{
     var message = generateLocationMessage(from,lat,lng);
     expect(message.from).toBe('test');
     expect(message.url).toBe('https://www.google.com/maps?q=1,1');
-    //expect(message.createdAt).toHaveReturned('number');
+    expect(typeof(message.createdAt)).toBe('number');
 
   });
 });
