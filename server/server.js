@@ -21,25 +21,36 @@ io.on('connection',(socket)=>{
   //});
   socket.emit('newMessage',generateMessage('Admin','Welcome to Chat App'));
   socket.broadcast.emit('newMessage',generateMessage('Admin','New User added to chat app'));
-  socket.on('createMessage',(message)=>{
+  socket.on('createMessage',(message,callback)=>{
     console.log('new message from client',message);
     io.emit('newMessage',generateMessage(message.from,message.text));
-    //socket.broadcast.emit('newMessage',{
-      //from:message.from,
-      //text:message.text,
-      //createdAt: new Date().getTime()
-    //});
+    callback('this is string');
   });
 
   socket.on('disconnect',()=>{
     console.log('user was disconnected');
   });
 });
-app.use(express.static('publicPath'));
 
-app.get('/',(req,res)=>{
-  res.sendFile( `${publicPath}/index.html`);
-});
+var options = {
+  dotfiles: 'ignore',
+  etag: false,
+  extensions: ['htm', 'html'],
+  index: 'index.html',
+  maxAge: '1d',
+  redirect: true,
+  setHeaders: function (res, path, stat) {
+    res.set('x-timestamp', Date.now())
+  }
+}
+
+app.use(express.static(publicPath, options));
+
+//app.use('/static', express.static(path.join(__dirname, 'public')));
+
+//app.get('/',(req,res)=>{
+//  res.sendFile( `${publicPath}/index.html`);
+//});
 server.listen(port,()=>{
   console.log(`server up on port ${port}`);
 });
