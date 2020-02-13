@@ -19,7 +19,7 @@ io.on('connection',(socket)=>{
   socket.on('createMessage',(message,callback)=>{
     //console.log('new message from client',message);
     io.emit('newMessage',generateMessage(message.from,message.text));
-    callback('this is string');
+    callback();
   });
   socket.on('createLocationMessage',(coords)=>{
     io.emit('newLocation',generateLocationMessage('admin',coords.lat,coords.lng));

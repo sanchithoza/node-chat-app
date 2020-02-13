@@ -12,7 +12,6 @@ socket.on('newMessage',function(message){
   var li = jQuery('<li></li>');
   li.text(`${message.from} : ${message.text}`);
   jQuery('#messages').append(li);
-  jQuery('[name=message]').val('');
 });
 socket.on('newLocation',function(message){
   var li = jQuery('<li></li>');
@@ -32,26 +31,24 @@ jQuery('#message-form').on('submit',function(e){
       from:'Sanchit Oza',
       text:jQuery('[name=message]').val()
   },function(message){
-    console.log('got it from callback',message);
-  //  var li = jQuery('<li></li>');
-    //li.text(`${message.from} : ${message.text}`);
-
-    //jQuery('#messages').append(li);
-    //jQuery('[name=message]').val('');
+    jQuery('[name=message]').val('');
   });
 });
 var locationButton = jQuery('#send-location');
 locationButton.on('click',function(){
+
   if(!navigator.geolocation){
     return alert('geolocation feature not available on your browser');
   }
+  locationButton.attr('disabled','disabled').text('Sending');
   navigator.geolocation.getCurrentPosition(function(position){
     socket.emit('createLocationMessage',{
       lat:position.coords.latitude,
       lng:position.coords.longitude
     });
-    //console.log(position);
+    locationButton.removeAttr('disabled').text('Send Location');//console.log(position);
   },function(){
+    locationButton.removeAttr('disabled').text('Send Location');
     alert('unable to featch location');
-  })
+  });
 });
