@@ -8,10 +8,11 @@ socket.on('connect',function(){
   //});
 });
 socket.on('newMessage',function(message){
-  console.log('new Message from user',message);
+  //console.log('new Message from user',message);
   var li = jQuery('<li></li>');
   li.text(`${message.from} : ${message.text}`);
   jQuery('#messages').append(li);
+  jQuery('[name=message]').val('');
 });
 socket.on('disconnect',function(){
   console.log('disconnectd from server');
@@ -23,11 +24,11 @@ jQuery('#message-form').on('submit',function(e){
       from:'Sanchit Oza',
       text:jQuery('[name=message]').val()
   },function(message){
-    console.log('got it',message);
-    var li = jQuery('<li></li>');
-    li.text(`${message.from} : ${message.text}`);
+    console.log('got it from callback',message);
+  //  var li = jQuery('<li></li>');
+    //li.text(`${message.from} : ${message.text}`);
 
-    jQuery('#messages').append(li);
-    jQuery('[name=message]').val('');
+    //jQuery('#messages').append(li);
+    //jQuery('[name=message]').val('');
   });
 });

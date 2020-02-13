@@ -14,20 +14,16 @@ var io = socketIO(server);
 var port = process.env.PORT || 3000;
 io.on('connection',(socket)=>{
   console.log('new user connected');
-  //socket.emit('newMessage',{
-  //  from:'sanchit',
-  //  text:'test chat emit from server',
-  //  createdAt:new Date()
-  //});
   socket.emit('newMessage',generateMessage('Admin','Welcome to Chat App'));
   socket.broadcast.emit('newMessage',generateMessage('Admin','New User added to chat app'));
   socket.on('createMessage',(message,callback)=>{
-    console.log('new message from client',message);
+    //console.log('new message from client',message);
     io.emit('newMessage',generateMessage(message.from,message.text));
     callback('this is string');
   });
 
   socket.on('disconnect',()=>{
+    socket.broadcast.emit('newMessage',generateMessage('Admin','A user Left Chat App'));
     console.log('user was disconnected');
   });
 });
