@@ -13,11 +13,16 @@ function scroolToBottom(){
   }
 }
 socket.on('connect',function(){
-  console.log('connected to server');
-  //socket.emit('createMessage',{
-  //  from:'client',
-  //  text:'test chat create from client'
-  //});
+  //console.log('connected to server');
+  var params = jQuery.deparam(window.location.search);
+  socket.emit('join', params, function(err){
+    if(err){
+      alert(err);
+      window.location.href = '/';
+    }else{
+      console.log('no error');
+    }
+  });
 });
 socket.on('newMessage',function(message){
   var formatedTime = moment(message.createdAt).format('h:mm a');
@@ -44,7 +49,13 @@ socket.on('newLocation',function(message){
 socket.on('disconnect',function(){
   console.log('disconnectd from server');
 });
-
+socket.on('updateUserList',function(users){
+  var ol =jQuery('<ol></ol>');
+  users.forEach(function(user){
+    ol.append(jQuery('<li></li>').text(user))
+    jQuery('#user').html(ol);
+  });
+});
 jQuery('#message-form').on('submit',function(e){
   e.preventDefault();
   socket.emit('createMessage',{
