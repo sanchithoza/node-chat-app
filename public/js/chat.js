@@ -59,7 +59,6 @@ socket.on('updateUserList',function(users){
 jQuery('#message-form').on('submit',function(e){
   e.preventDefault();
   socket.emit('createMessage',{
-      from:'Sanchit Oza',
       text:jQuery('[name=message]').val()
   },function(message){
     jQuery('[name=message]').val('');
